@@ -1,0 +1,99 @@
+{
+	"main": {
+		"imgur-client-id": "9ff97800dfceb1e",
+		"imgur-client-secret": "7cfb78f7dfbf5397fe5638e66d787164ed497166"
+	},
+	"images": {
+		"spongebob": {
+			"path": "Images/PNG/spongebob1.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [399, 299],
+			"background-cord": [97, 305]
+		},
+		"ihadtogrind": {
+			"path": "Images/PNG/ihadtogrind.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [545, 531],
+			"background-cord": [15, 64]
+		},
+		"granpatv": {
+			"path": "Images/PNG/granpatv.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [430, 243],
+			"background-cord": [45, 253]
+		},
+		"mrkrupp": {
+			"path": "Images/PNG/mrkrupp.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [566, 418],
+			"background-cord": [0, 0]
+		},
+		"spore": {
+			"path": "Images/PNG/spore.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [1024, 1024],
+			"background-cord": [0, 0]
+		},
+		"spywow": {
+			"path": "Images/PNG/spywow.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [600, 339],
+			"background-cord": [0, 0]
+		},
+		"thisguy": {
+			"path": "Images/PNG/thisguy.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [520, 451],
+			"background-cord": [0, 191]
+		},
+		"thiswoman": {
+			"path": "Images/PNG/thiswoman.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [964, 467],
+			"background-cord": [0, 444]
+		},
+		"icecream": {
+			"path": "Images/PNG/icecream.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [309, 261],
+			"background-cord": [202, 250]
+		},
+		"obstetrician": {
+			"path": "Images/PNG/obstetrician.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [962, 727],
+			"background-cord": [22, 13]
+		},
+		"anus": {
+			"path": "Images/PNG/anus.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [225, 191],
+			"background-cord": [0, 0]
+		},
+		"dream": {
+			"path": "Images/PNG/dream.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [685, 450],
+			"background-cord": [0, 308]
+		},
+		"slam": {
+			"path": "Images/PNG/slam.png",
+			"foreground-size": [0, 0],
+			"foreground-cord": [0, 0],
+			"background-size": [315, 447],
+			"background-cord": [338, 14]
+		}
+	}
+}
