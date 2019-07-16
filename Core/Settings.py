@@ -15,12 +15,17 @@ DOCS_LINK = "https://docs.google.com/document/d/1MsD0cZyTKnLoJppLjcbASF8WsQQT-8Q
 # Roles stuff
 # Admin roles
 ADMIN_ROLES = (
-	"admin"
+	"Министерство Информации",
+	"Министерство Культуры",
+	"Министерство Обороны",
 )
 
 # Other bots
 BOTS_ROLES = (
-	"Rhytm 2"
+	"Радио",
+	"Groovy",
+	"Rhytm",
+	"Rhytm 2",
 )
 
 # Bot locale
@@ -86,9 +91,9 @@ OS_CLR = {
 
 # Modules
 MODS = [
-	"Mods.ErrorHandler",
-	"Mods.Tools",
-	"Mods.Fun",
+	"Mods.ErrorHandler.ErrorHandler",
+	"Mods.Tools.Tools",
+	"Mods.Fun.Fun",
 	# "Mods.Games",
 	# "Mods.ASCII",
 ]

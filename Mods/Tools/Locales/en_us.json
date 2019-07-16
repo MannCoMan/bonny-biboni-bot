@@ -1,0 +1,18 @@
+{
+    "aliases": {
+        "restart": ["res", "reset"],
+        "reload-module": ["reload", "rel"],
+        "info": ["about", "information", "?"]
+    },
+    "restart-header": "ｒｅｓｔａｒｔ　憶ュギ",
+    
+    "reload-module-done": ":tools: Module `{mod}` was successfully reloaded!",
+    "reload-module-doesnt-exist": ":file_folder: Module `{mod}` doesn't exist!",
+    "reload-module-failed": ":fire: Failed to reload `{mod}` module!",
+
+    "info-descr-header": "The best bot in the world",
+    "info-descr-text": "I don't why he exist",
+    "info-author-header": "Author: ",
+    "info-author-text": "uselessVEVO#2169",
+    "info-commands-header": "Commands: "
+}

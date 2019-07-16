@@ -27,7 +27,7 @@ from Core.Settings import BOT_ENABLE_DEV_MODE
 from Core.Settings import BOT_DEV_MODE_STATUS
 
 
-_ = Translate(BOT_LOCALE).get
+_ = Translate("Locales").get
 
 bot = commands.Bot(
 	command_prefix=BOT_COMMAND_PREFIX,

@@ -5,6 +5,8 @@ import json
 import operator
 import os
 
+from Core.Settings import BOT_LOCALE
+
 
 class Dict(dict):
 	# TODO: add comp. function with "clone" feature
@@ -132,8 +134,8 @@ class DictWrapper(Dict):
 
 
 class Translate(Wrapper):
-	def __init__(self, locale):
-		super().__init__(f"Locales/{locale}.json")
+	def __init__(self, *path):
+		super().__init__(os.path.join(*path, f"{BOT_LOCALE}.json"))
 
 	@property
 	def message_patterns(self):

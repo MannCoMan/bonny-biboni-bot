@@ -1,0 +1,25 @@
+{
+    "aliases": {
+        "spongebob": ["sponge", "bob"],
+        "ihadtogrind": ["grind"],
+        "granpatv": ["grandtv", "tv"],
+        "mrkrupp": ["krupp"],
+        "spore": ["sporelogo"],
+        "spywow": ["spy", "spytf"],
+        "thisguy": ["guy", "man"],
+        "thiswoman": ["woman", "girl"],
+        "icecream": ["ice", "cream"],
+        "obstetrician": ["obs"],
+        "anus": ["hole"],
+        "dream": ["ihaddream"],
+        "slam": ["door"],
+        "skibidi": ["vapa"],
+        "badmeme": ["goodmeme"],
+        "magic": ["magik"],
+        "impact-meme": ["impact"],
+        "whois": ["who"],
+        "imgur": ["pics"],
+        "minecraft": ["mine", "minekampf"],
+        "ascii": ["ascee", "text"]
+    }
+}
