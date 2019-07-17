@@ -21,5 +21,10 @@
         "imgur": ["пикчи", "приколы"],
         "minecraft": ["майн", "майнкрафт"],
         "ascii": ["аски"]
-    }
+    },
+    "error-magic-max-value": ":warning: Значение `scale` не должно превышать 10",
+    "error-text-is-empty": ":warning: Напиши что-нибудь, дебил",
+    "error-base-exception": ":warning: Я обосрался! `{}`",
+    "whois-text": "Я думаю, {} - {}",
+    "error-cant-download-image": ":fire: Я не смог сохранить изображение! \nURL: {url}"
 }

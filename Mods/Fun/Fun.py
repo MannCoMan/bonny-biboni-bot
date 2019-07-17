@@ -29,6 +29,7 @@ _ = Translate("Mods", "Fun", "Locales").get
 class Fun(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
+
 		self.imgur_client = ImgurClient(
 			get("main", "imgur-client-id"), 
 			get("main", "imgur-client-secret")
@@ -131,7 +132,7 @@ class Fun(commands.Cog):
 	async def magic(self, ctx, scale=3):
 		try:
 			if scale > 10:
-				await ctx.send(":warning: значение scale не должно привышать 10")
+				await ctx.send(_("error-magic-max-value"))
 				scale = 1
 
 			to_send = "Images/Temp/magic.png"
@@ -158,12 +159,14 @@ class Fun(commands.Cog):
 			await ctx.send(file=discord.File(to_send))
 			os.remove(to_send)
 		except Exception as e:
-			await ctx.send(":warning: Я обосрался! `%s`" % e)
+			await ctx.send(_("error-base-exception").format(e))
 
 	@commands.command(aliases=_("aliases", "impact-meme"), pass_context=True)
 	async def impact_meme(self, ctx, *string):
 		# Forked from: https://github.com/Littlemansmg/Discord-Meme-Generator
 		# Get image from URL
+		await ctx.trigger_typing()
+
 		to_send = "Images/Temp/meme.png"
 		location = await self._get_images(ctx)
 		response = requests.get(location)			
@@ -217,7 +220,7 @@ class Fun(commands.Cog):
 			await ctx.send(file=discord.File(to_send))
 			os.remove(to_send)
 		else:
-			await ctx.send("You need to write something! :warning:")
+			await ctx.send(_("error-text-is-empty"))
 
 	async def _blend_images(self, ctx, keyword="spongebob", attachments={}):
 		try:
@@ -243,7 +246,7 @@ class Fun(commands.Cog):
 			os.remove(to_send)
 		
 		except Exception as e:
-			await ctx.send(":warning: я обосрался! `%s`" % e)
+			await ctx.send(_("error-base-exception").format(e))
 
 	async def _save_image(self, url, ext="png"):
 		name = url.split("/")[-1]
@@ -253,7 +256,7 @@ class Fun(commands.Cog):
 		response = requests.get(url)
 		image = Image.open(BytesIO(response.content))
 		image.save(name)
-		return name if name else await ctx.send(f":fire: Я не смог сохранить изображение! \n||{url}||")
+		return name if name else await ctx.send(_("error-cant-download-image").format(url))
 
 	async def _get_images(self, ctx, limit=200):
 		async for c in ctx.history(limit=limit): # limit=10
@@ -263,24 +266,22 @@ class Fun(commands.Cog):
 				return background_url if background_ext in ("png", "gif", "jpeg", "jpg") else None
 
 	@commands.command(aliases=_("aliases", "whois"), pass_context=True)
-	async def whois(self, ctx, text:str):
+	async def whois(self, ctx, *text):
 		try:
 			if text is None:
 				text = "гей"
 
-			text = re.sub(r"\S+", "", "".join(text))
-
-			person = random.choice(await self._get_all_members(ctx))
-			person = "".join(person)
-			await ctx.send("%s, я думаю %s - %s" % (ctx.message.author.mention, text, person))
+			member = await self._get_all_members(ctx)
+			member = random.choice(member)
+			await ctx.send(_("whois-text").format(*text, member))
 
 		except Exception as e:
-			await ctx.send(":warning: я обосрался! `%s`" % e)
+			await ctx.send(_("error-base-exception").format(e))
 
-	async def _get_all_members(self, ctx):
+	async def _get_all_members(self, ctx, no_bots=False):
 		collect = []
-		for member in ctx.message.server.members:
-			collect.append([member.name])
+		for index, member in enumerate(ctx.guild.members):
+			collect.append(member.name)
 		return collect
 
 	@commands.command(aliases=_("aliases", "imgur"), pass_context=True)
@@ -294,20 +295,16 @@ class Fun(commands.Cog):
 			rand = random.choice(load)
 			try:
 				if "image/" in rand.type:
-					await ctx.send("%s" % (rand.link))
+					await ctx.send(f"{rand.link}")
 			except AttributeError:
 				if rand.title:
-					title = "**%s**\n" % rand.title
+					title = f"**{rand.title}**\n"
 				else:
 					title = ""
-				if rand.descriptionription != None:
-					description = "`%s`\n" % rand.descriptionription
-				else:
-					description = ""
-				await ctx.send("%s%s%s" % (title, description, rand.link))
+				await ctx.send(f"{title}{rand.link}")
 
 		except Exception as e:
-			await ctx.send(":warning: я обосрался! `%s`" % e)
+			await ctx.send(_("error-base-exception").format(e))
 
 	@commands.command(aliases=_("aliases", "minecraft"), pass_context=True)
 	@commands.cooldown(1, 3)
@@ -331,12 +328,7 @@ class Fun(commands.Cog):
 			os.remove("Images/Temp/minecraft.png")
 
 		except Exception as e:
-			await ctx.send(":warning: Я обосрался! `%s`" % e)
-
-	@commands.command(aliases=["аски"], pass_context=True)
-	async def ascii(self, ctx, text):
-		await ctx.send(figlet_format("```%s```" % text))
-
+			await ctx.send(_("error-base-exception").format(e))
 
 def setup(bot):
 	bot.add_cog(Fun(bot))
