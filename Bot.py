@@ -20,8 +20,9 @@ from Core.Settings import MODS
 from Core.Settings import DEVMODE_MODS
 
 # Status presence and "Dev Mode"
+from Core.Settings import BOT_GAME_STATUSES
 from Core.Settings import BOT_STATUS_TIMER
-from Core.Settings import BOT_STATUSES
+from Core.Settings import BOT_GAME_STATUSES
 from Core.Settings import BOT_REMOVED_COMMANDS
 from Core.Settings import BOT_ENABLE_DEV_MODE
 from Core.Settings import BOT_DEV_MODE_STATUS
@@ -42,13 +43,19 @@ async def bot_tasks():
 		status = BOT_DEV_MODE_STATUS
 		timer = BOT_STATUS_TIMER
 	else:
-		status = BOT_STATUSES
+		status = BOT_GAME_STATUSES
 		timer = 1
 
-	game = discord.Game(name=random.choice(status))
+	if len(status) == 1:
+		game = discord.Game(name=status)
+	else:
+		game = discord.Game(name=random.choice(status))
 
 	while True:
-		await bot.change_presence(status=discord.Status.online, activity=game)
+		await bot.change_presence(
+			status=discord.Status.invisible,
+			activity=game,
+		)
 		await asyncio.sleep(timer)
 
 

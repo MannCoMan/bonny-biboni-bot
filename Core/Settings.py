@@ -48,15 +48,14 @@ BOT_REMOVED_COMMANDS = (
 )
 
 # Bot log channel. Copy ID from channel and it here
-BOT_LOG_CHANNEL = 600215808504758302 # "538000275340787712"
+BOT_LOG_CHANNEL = 600215808504758302
 
 # Force bot to send errors and logs to `BOT_LOG_CHANNEL`
 BOT_ENABLE_LOGS = False
 
-
 # Status stuff
 # All statuses
-BOT_STATUSES = [
+BOT_GAME_STATUSES = [
 	"Включайте свою камеру для вирт. секса",
 	"Привет! Ты откуда?)))",
 	"Ч У Ш Ь",
@@ -140,3 +139,7 @@ COLORS = {
 	"drk_blue": 0x99ccff,
 	"drk_cyan": 0x216a77,
 }
+
+# Imgur
+IMGUR_CLIEND_ID = ""
+IMGUR_CLIENT_SECRET = ""
