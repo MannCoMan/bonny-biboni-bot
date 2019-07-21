@@ -31,17 +31,14 @@ class Fun(commands.Cog):
 		self.bot = bot
 
 		self.imgur_client = ImgurClient(
-			get("main", "imgur-client-id"), 
-			get("main", "imgur-client-secret")
+			IMGUR_CLIEND_ID,
+			IMGUR_CLIENT_SECRET
 		)
 
-	# Arguments for "_blend_images":
-	# filename            - source image path
-
 	@commands.command(aliases=_("aliases", "spongebob"), pass_context=True)
-	@commands.cooldown(1, 3)
+	@commands.cooldown(1, 3, commands.BucketType.user)
 	async def spongebob(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="spongebob1.png",
 			attachments=ctx.message.attachments,
@@ -52,7 +49,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "ihadtogrind"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def ihadtogrind(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="ihadtogrind.png",
 			attachments=ctx.message.attachments,
@@ -63,7 +60,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "granpatv"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def granpatv(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="granpatv.png",
 			attachments=ctx.message.attachments,
@@ -74,7 +71,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "mrkrupp"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def mrkrupp(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="mrkrupp.png",
 			attachments=ctx.message.attachments,
@@ -85,7 +82,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "spore"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def spore(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="spore.png",
 			attachments=ctx.message.attachments,
@@ -96,7 +93,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "spywow"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def spywow(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="spywow.png",
 			attachments=ctx.message.attachments,
@@ -107,7 +104,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "thisguy"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def thisguy(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="thisguy.png",
 			attachments=ctx.message.attachments,
@@ -118,7 +115,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "thiswoman"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def thiswoman(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="thiswoman.png",
 			attachments=ctx.message.attachments,
@@ -129,7 +126,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "icecream"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def icecream(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="icecream.png",
 			attachments=ctx.message.attachments,
@@ -140,7 +137,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "obstetrician"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def obstetrician(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="obstetrician.png",
 			attachments=ctx.message.attachments,
@@ -151,7 +148,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "anus"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def anus(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="anus.png",
 			attachments=ctx.message.attachments,
@@ -162,7 +159,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "dream"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def dream(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="dream.png",
 			attachments=ctx.message.attachments,
@@ -173,7 +170,7 @@ class Fun(commands.Cog):
 	@commands.command(aliases=_("aliases", "slam"), pass_context=True)
 	@commands.cooldown(1, 3)
 	async def slam(self, ctx):
-		await self.blend_images(
+		await self._blend_images(
 			ctx=ctx,
 			filename="slam.png",
 			attachments=ctx.message.attachments,
@@ -291,27 +288,48 @@ class Fun(commands.Cog):
 		else:
 			await ctx.send(_("error-text-is-empty"))
 
-	async def blend_images(self, ctx, filename, **kwargs):
+	async def _blend_images(self, ctx:str, filename:str, **kwargs):
+		"""
+		Keyword arguments for "_blend_images" method:
+		* filename       - background image path
+		* attachments    - attached urls, default - None
+		* bg_size        - background image width and height, default - (None, None)
+		* bg_coord       - background image coordinates, default - (None, None)
+		* bg_scale_x1    - rescale image by x1, default - 0
+		* bg_scale_y1    - rescale image by y1, default - 0
+		* bg_scale_x2    - rescale image by x2, default - 0
+		* bg_scale_y2    - rescale image by y2, default - 0
+		* bg_resize_w    - resize image width, default - 0
+		* bg_resize_h    - resize image height, default - 0
+		"""
+
 		await ctx.trigger_typing()
 		
 		to_send = f"Images/Temp/{filename}"
 		w, h = kwargs.get("bg_size", None)
 		x, y = kwargs.get("bg_coord", None)
-		response = requests.get(await self._get_images(ctx))
+		response = await self._get_images(ctx)
+		response = requests.get(response)
 
 		foreground = os.path.join(IMAGES_TEMPLATE_PATH, filename)
 		foreground = Image.open(foreground)
 
 		background = Image.open(BytesIO(response.content))
-		background = background.resize((w, h))
+		if 3000 in background.size:
+			await ctx.send(f":warning: Image is too large - `{background.size[0]}x{background.size[1]}`!")
+		else:
+			background = background.resize((w, h))
 
-		blended = Image.new("RGBA", foreground.size)
-		blended.paste(background, (x, y))
-		blended.paste(foreground, (0, 0), foreground)
-		blended.save(to_send, "PNG")
+			blended = Image.new("RGBA", foreground.size)
+			blended.paste(background, (x, y))
+			blended.paste(foreground, (0, 0), foreground)
+			blended.save(to_send, "PNG")
 
-		await ctx.send(file=discord.File(to_send))
-		os.remove(to_send)
+			await ctx.send(file=discord.File(to_send))
+			os.remove(to_send)
+
+	async def _circulate_image(self, image:Image.Image, radius:int):
+		pass
 
 	async def _save_image(self, url, ext="png"):
 		name = url.split("/")[-1]
@@ -323,7 +341,9 @@ class Fun(commands.Cog):
 		image.save(name)
 		return name if name else await ctx.send(_("error-cant-download-image").format(url))
 
-	async def _get_images(self, ctx, limit=200):
+	async def _get_images(self, ctx, **kwargs):
+		limit = kwargs.get("history_limit", 200)
+
 		async for c in ctx.history(limit=limit): # limit=10
 			if len(c.attachments) > 0:
 				background_url = c.attachments[0].url
@@ -338,7 +358,7 @@ class Fun(commands.Cog):
 
 			member = await self._get_all_members(ctx)
 			member = random.choice(member)
-			await ctx.send(_("whois-text").format(*text, member))
+			await ctx.send(_("whois-text").format(member))
 
 		except Exception as e:
 			await ctx.send(_("error-base-exception").format(e))

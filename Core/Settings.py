@@ -47,8 +47,11 @@ BOT_REMOVED_COMMANDS = (
 	"help",
 )
 
-# Bot log channel. Copy ID from channel and it here
-BOT_LOG_CHANNEL = 600215808504758302
+BOT_LOG_CHANNELS = {
+	"on_message": 601750600195112971,
+	"on_command": 601750335052316683,
+	"on_command_error": 601750242786017300,
+}
 
 # Force bot to send errors and logs to `BOT_LOG_CHANNEL`
 BOT_ENABLE_LOGS = False
@@ -90,7 +93,6 @@ OS_CLR = {
 
 # Modules
 MODS = [
-	"Mods.ErrorHandler.ErrorHandler",
 	"Mods.Tools.Tools",
 	"Mods.Fun.Fun",
 	# "Mods.Games",
@@ -106,7 +108,6 @@ BOT_DEV_MODE_STATUS = (
 BOT_ENABLE_DEV_MODE = False
 
 DEVMODE_MODS = [
-	"Mods.ErrorHandler",
 	"Mods.Tools",
 ]
 
@@ -139,6 +140,7 @@ COLORS = {
 	"drk_blue": 0x99ccff,
 	"drk_cyan": 0x216a77,
 }
+
 
 # Imgur
 IMGUR_CLIEND_ID = ""

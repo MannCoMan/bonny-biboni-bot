@@ -25,6 +25,6 @@
     "error-magic-max-value": ":warning: Value `scale` should not be more than 10",
     "error-text-is-empty": ":warning: Write something, retard",
     "error-base-exception": ":warning: I shat myself! `{}`",
-    "whois-text": "I think, {} - {}",
+    "whois-text": "I think, it is - {}",
     "error-cant-download-image": ":fire: I couldn't download image! \nURL: {url}"
 }

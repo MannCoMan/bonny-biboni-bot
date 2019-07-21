@@ -26,7 +26,7 @@ class Tools(commands.Cog):
 		self.bot = bot
 
 	@commands.command(aliases=_("aliases", "restart"), pass_context=True)
-	@commands.has_any_role(*ADMIN_ROLES)
+	@commands.is_owner()
 	# @commands.has_permissions(administrator=True, manage_messages=True, manage_roles=True)
 	async def restart(self, ctx):
 		embed = discord.Embed(
@@ -39,8 +39,13 @@ class Tools(commands.Cog):
 			subprocess.call(OS_CLR[sys.platform], shell=True)
 		subprocess.call([sys.executable, "Bot.py"])
 
+	@restart.error
+	async def restart_error(self, ctx, error):
+		if isinstance(error, commands.NotOwner):
+			await ctx.send(_("not-owner"))
+
 	@commands.command(aliases=_("aliases", "reload-module"), pass_context=True)
-	@commands.has_any_role(*ADMIN_ROLES)
+	@commands.is_owner()
 	async def reload_module(self, ctx, *mods):
 		# `prefix <reload_module> *`
 		# `prefix <reload_module> ModName1 ModName2 ... ModNameX`
@@ -56,6 +61,13 @@ class Tools(commands.Cog):
 			except Exception as e:
 				await ctx.send(_("reload-module-failed").format(mod=mod))
 				print(f"Failed to load mod {mod}\n{type(e).__name__}: {e}")
+
+	@reload_module.error
+	async def reload_module_error(self, ctx, error):
+		if isinstance(error, commands.NotOwner):
+			await ctx.send(_("not-owner"))
+		if isinstance(error, commands.BadArgument):
+			await ctx.send("Hmmm")
 
 	@commands.command(aliases=_("aliases", "info"), pass_context=True)
 	async def info(self, ctx):
@@ -83,7 +95,7 @@ class Tools(commands.Cog):
 		    await ctx.send(embed=embed)
 		except Exception as e:
 			raise Exception(e)
-
+			
 
 def setup(bot, **kwargs):
 	bot.add_cog(Tools(bot, **kwargs))

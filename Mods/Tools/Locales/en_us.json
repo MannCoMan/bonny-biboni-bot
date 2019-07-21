@@ -4,6 +4,7 @@
         "reload-module": ["reload", "rel"],
         "info": ["about", "information", "?"]
     },
+    "not-owner": ":sunglasses: Fuck off",
     "restart-header": "ｒｅｓｔａｒｔ　憶ュギ",
     
     "reload-module-done": ":tools: Module `{mod}` was successfully reloaded!",
