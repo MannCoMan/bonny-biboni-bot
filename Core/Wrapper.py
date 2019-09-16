@@ -1,142 +1,98 @@
 import collections
-import functools
-import inspect
 import json
-import operator
-import os
 
-from Core.Settings import BOT_LOCALE
-
-
-class Dict(dict):
-	# TODO: add comp. function with "clone" feature
-	def __setitem__(self, key, item):
-		self.__dict__[key] = item
-
-	def __getitem__(self, key):
-		return self.__dict__[key]
-
-	def __repr__(self):
-		return repr(self.__dict__)
-
-	def __len__(self):
-		return len(self.__dict__)
-
-	def __delitem__(self, key):
-		del self.__dict__[key]
-
-	def clear(self):
-		return self.__dict__.clear()
-
-	def delete(self, key):
-		_r = self.get()[key]
-		return _r
-
-	def copy(self):
-		return self.__dict__.copy()
-
-	def has_key(self, k):
-		return k in self.__dict__
-
-	def update(self, *args, **kwargs):
-		return self.__dict__.update(*args, **kwargs)
-
-	def keys(self):
-		return self.__dict__.keys()
-
-	def values(self):
-		return self.__dict__.values()
-
-	def items(self):
-		return self.__dict__.items()
-
-	def keysList(self):
-		return "".join(self.__dict__.keys())
-
-	def valuesList(self):
-		return "".join(self.__dict__.values())
-
-	def pop(self, *args):
-		return self.__dict__.pop(*args)
-
-	def get(self, *args, default=None):
-		try:
-			return functools.reduce(operator.getitem, args, self.__dict__)
-		except (KeyError, AttributeError, TypeError):
-			# Will return default value or empty "Dict" class
-			return default if default is not None else Dict() 
-
-	def __contains__(self, item):
-		return item in self.__dict__
-
-	def __iter__(self):
-		return iter(self.__dict__)
-
-	def __str__(self):
-		return str(repr(self.__dict__))
+from pathlib import Path
+from Core.Types import Dict
 
 
-class Wrapper(Dict):
-	"""
-	* Supports dicts or file paths 
-	* Wrapper({"main": "value"})
-	* Wrapper("Path/File.json")
-	"""
+class Wrapper:
+	""" JSON Wrapper """
 
-	__slots__ = "file"
+	container = Dict()
 
-	def __init__(self, file):
+	def __init__(self, path):
 		super(Wrapper, self).__init__()
-		self.file = file
+		self.path = Path(path)
 
-		with open(self.file, "r", encoding="utf-8") as data:
-			self.update(json.load(data))
+	def read(self, path=None, container=None, key=None):
+		if path:
+			path = Path(path)
+		else:
+			path = self.path
 
-	def __update(self, dicto, dictu):
+		if not container:
+			container = self.container
+			
+		with open(path, "r", encoding="utf-8") as file:
+			if key:
+				if key in container:
+					container[key].update(json.load(file))
+				else:
+					container[key] = json.load(file)					
+			else:
+				container.update(json.load(file))
+
+	def _update(self, dicto, dictu):
 		for k, v in dictu.items():
 			if isinstance(v, collections.Mapping):
-				dicto[k] = self.__update(dicto.get(k, {}), v)
+				dicto[k] = self._update(dicto.get(k, {}), v)
 			else:
 				dicto[k] = v
 		return dicto
 
-	def remove(self, key):
-		removed = self.get()
-		del removed[key]
-		self.save(removed)
+	def get(self, *args):
+		return self.container.get(*args)
 
-	# save(<updated dict>) 
-	def save(self, dict_, indent=4):
-		u = self.__update(self.get(), dict_)
-		with open(self.file, "wb") as file:
-			data = json.dumps(u, indent=indent, ensure_ascii=False).encode("utf8")
+	def save(self, *args, file=None, indent=None, check=True):
+		"""
+		save - method for saving data to json file
+		
+		Args:
+			file   - file path for another file
+			indent - json-file indent
+			check  - check hash sum difference
+
+		How to use:
+			# save it
+			myDict.save("section", "key", "value") # save it
+		
+			# save it (with arguments)
+			myDict.save("section", "key", "value", file="backup.json", indent=3)
+		"""
+
+		if not indent:
+			indent = 4
+		
+		self.container.set(*args)
+
+		with open(self.path, "wb") as file:
+			data = json.dumps(self.container, indent=indent, ensure_ascii=False).encode("utf-8")
 			file.write(data)
 
+	def rawsave(self, data: Dict, file=None, indent=None, check=True):
+		"""
+		rawsave - method for updating json file from raw dict
 
-class DictWrapper(Dict):
-	"""
-	How to use:
-	* DictWrapper(DictObject)         - Dict object type
-	* DictWrapper({"key": "value"})   - raw dict type
-	* DictWrapper('{"key": "value"}') - string type dict
-	"""
+		Args:
+			data   - raw dictionary
+			file   - file path for another file
+			indent - json-file indent
 
-	__slots__ = "data"
+		How to use:
+			# save it
+			myDict.rawsave({"section": {"key": "value"}})
 
-	def __init__(self, data=None):
-		super(DictWrapper, self).__init__()
-		if isinstance(data, (dict, Dict)):
-			self.data = self.update(data)
+			# save it (with parameters)
+			myDict.rawsave({"section": {"key": "value"}}, file="backup.json", indent=3)
+		"""
 
-		if isinstance(data, str):
-			self.data = json.loads(data)
-			self.data = self.update(self.data)
+		if not file:
+			file = self.path
 
+		if not indent:
+			indent = 4
 
-class Translate(Wrapper):
-	def __init__(self, *path):
-		super().__init__(os.path.join(*path, f"{BOT_LOCALE}.json"))
-
-	@property
-	def message_patterns(self):
-		return self.get("message-patterns")
+		update = self._update(self.container.get(), data)
+		with open(self.path, "wb") as file:
+			data = json.dumps(update, indent=indent, ensure_ascii=False).encode("utf-8")
+			file.write(data)

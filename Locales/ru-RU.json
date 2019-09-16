@@ -1,0 +1,8 @@
+{
+    "Author": "Автор",
+    "Command": "Команда",
+    "Please, wait": "Пожалуйста, подождите",
+    "Invalid input": "Неправильный ввод в {err}",
+    "Bad command argument": "Ошибка аргумента {err}",
+    "Command not found": "Команда не найдена {err}"
+}

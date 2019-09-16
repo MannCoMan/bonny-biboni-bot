@@ -1,0 +1,12 @@
+{
+    "Not a owner": ":sunglasses: Съебался нахуй",
+    "Done. Prefix is - {prefix}": "Готово. Префикс - {prefix}",
+    "Done. Locale is - {locale}": "Готово. Язык установлен на {locale}",
+    "Rebooting": "ｒｅｓｔａｒｔ　憶ュギ",
+    "Module was rebooted - `{module}`": "Модуль был успешно перезагружен - `{module}`",
+    "Module doesn't exist - `{module}`": "Модуль не существует - `{module}`",
+    "Failed to reboot module - `{module}`": "Не удалось перезагрузить модуль - `{module}`",
+    "The best bot in the world": "Лучший бот во всём мире",
+    "Author": "Автор",
+    "Commands": "Команды"
+}

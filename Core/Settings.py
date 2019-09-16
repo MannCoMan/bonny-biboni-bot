@@ -1,4 +1,4 @@
-import os, time
+import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,15 +29,17 @@ BOTS_ROLES = (
 )
 
 # Bot locale
-BOT_LOCALE = "ru_ru"
+DEFAULT_LOCALE = "en-US"
 
-LOCALE_FILES = (
-	("ru_ru", "Locales/ru_ru.json"),
+# Emoji responses. See in Core/Translate.py
+EMOJI_RESPONSE = (
+	":flushed:", ":relieved:", ":smirk:", 
+	":sunglasses:", ":alien:", ":thinking:"
 )
 
 # Bot command prefix
 # <prefifx> [command]
-BOT_COMMAND_PREFIX = "биба "
+BOT_DEFAULT_PREFIX = "-"
 
 # Bot case sensetive
 BOT_CASE_SENSETIVE = False
@@ -48,7 +50,7 @@ BOT_REMOVED_COMMANDS = (
 )
 
 BOT_LOG_CHANNELS = {
-	"on_message": 601750600195112971,
+	# "on_message": 601750600195112971,
 	"on_command": 601750335052316683,
 	"on_command_error": 601750242786017300,
 }
@@ -56,8 +58,9 @@ BOT_LOG_CHANNELS = {
 # Force bot to send errors and logs to `BOT_LOG_CHANNEL`
 BOT_ENABLE_LOGS = False
 
-# Status stuff
-# All statuses
+# In mil. seconds
+BOT_STATUS_TIMER = 1800
+
 BOT_GAME_STATUSES = [
 	"Включайте свою камеру для вирт. секса",
 	"Привет! Ты откуда?)))",
@@ -67,9 +70,9 @@ BOT_GAME_STATUSES = [
 	"ты лох",
 ]
 
-# In mil. seconds
-BOT_STATUS_TIMER = 1800
-
+BOT_DEV_STATUSES = [
+	"/dev/",
+]
 
 # System stuff
 # Bot enable greet
@@ -77,7 +80,6 @@ BOT_AUTOSTART_GREET = False
 
 # Bot greetings
 BOT_GREET_MESSAGES = [
-	# f"Здарова бандиты: *{time.strftime('%d.%m.%y-%H:%M:%S', time.gmtime())}*",
 	"Здарова бандиты :doge:",
 ]
 
@@ -91,26 +93,18 @@ OS_CLR = {
 	"darwin": "clear",
 }
 
-# Modules
+# Modules. Format: ModsFolder.ModFolder.ModInitFile
 MODS = [
 	"Mods.Tools.Tools",
 	"Mods.Fun.Fun",
-	# "Mods.Games",
-	# "Mods.ASCII",
+	# "Mods.Games.Games",
 ]
-
-
-# Dev Mode stuff
-BOT_DEV_MODE_STATUS = (
-	"DEV MODE",
-)
 
 BOT_ENABLE_DEV_MODE = False
 
 DEVMODE_MODS = [
 	"Mods.Tools",
 ]
-
 
 # Fonts
 FONTS_ROOT = os.path.join(BASE_DIR, "Fonts")
@@ -134,14 +128,14 @@ COLORS = {
 	"magenta": 0xb620fc,
 	"blue": 0x2027fc,
 	"cyan": 0x00f6ff,
-	"drk_orange": 0xc66300,
-	"drk_red": 0x750000,
-	"drk_magenta": 0x821f91,
-	"drk_blue": 0x99ccff,
-	"drk_cyan": 0x216a77,
+	"dark-orange": 0xc66300,
+	"dark-red": 0x750000,
+	"dark-magenta": 0x821f91,
+	"dark-blue": 0x99ccff,
+	"dark-cyan": 0x216a77,
 }
 
 
 # Imgur
-IMGUR_CLIEND_ID = ""
-IMGUR_CLIENT_SECRET = ""
+IMGUR_CLIEND_ID = "9ff97800dfceb1e"
+IMGUR_CLIENT_SECRET = "7cfb78f7dfbf5397fe5638e66d787164ed497166"
