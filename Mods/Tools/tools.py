@@ -14,16 +14,9 @@ from discord.ext.commands import ExtensionNotLoaded
 from discord.ext.commands import NoEntryPointError
 from discord.ext.commands import ExtensionFailed
 
-from Core.Settings import COLORS
-from Core.Settings import ADMIN_ROLES
-from Core.Settings import BOT_PROFILE_PICTURE
-from Core.Settings import DOCS_LINK
-from Core.Settings import BOT_RESTART_CLEAR_CONSOLE
-from Core.Settings import OS_CLR
-from Core.Settings import MODS
-
-from Core.Translate import Translate
-from Core.SQL import get_guilds, update
+from .constants import ToolsConst
+from Core.translate import Translate
+from Core.sql import update
 
 
 translate = Translate("Mods/Tools/Locales")
@@ -32,6 +25,8 @@ alias = translate.getalias
 
 
 class Tools(commands.Cog):
+	const = ToolsConst()
+	
 	def __init__(self, bot):
 		self.bot = bot
 
@@ -63,13 +58,13 @@ class Tools(commands.Cog):
 	async def restart(self, ctx):
 		embed = discord.Embed(
 			title=tr("Rebooting", ctx=ctx, emoji="gear"),
-			color=COLORS.get("orange", 0x99ccff),
+			color=self.const.COLORS.get("orange", 0x99ccff),
 		)
 		await ctx.send(embed=embed)
 
-		if BOT_RESTART_CLEAR_CONSOLE:
-			subprocess.call(OS_CLR[sys.platform], shell=True)
-		subprocess.call([sys.executable, "Bot.py"])
+		if self.const.BOT_RESTART_CLEAR_CONSOLE:
+			subprocess.call(self.const.OS_CLR[sys.platform], shell=True)
+		subprocess.call([sys.executable, "bot.py"])
 
 	@restart.error
 	async def restart_error(self, ctx, error):
@@ -82,18 +77,20 @@ class Tools(commands.Cog):
 		# `prefix <reload_module> *`
 		# `prefix <reload_module> ModName1 ModName2 ... ModNameX`
 		if "*" in mods:
-			mods = (i.split(".")[-1] for i in MODS)
+			mods = list(".".join(i.split(".")[1:]) for i in self.const.MODS)
 
 		for mod in mods:
 			try:
-				self.bot.reload_extension("Mods.{mod}.{mod}".format(mod=mod))
+				self.bot.reload_extension("Mods.{}".format(mod))
 				await ctx.send(tr("Module was rebooted - `{module}`", ctx=ctx, emoji="wrench", module=mod))
 
-			except ExtensionNotFound:
+			except ExtensionNotFound as err:
 				await ctx.send(tr("Module doesn't exist - `{module}`", ctx=ctx, emoji="warning", module=mod))
+				print(err)
 
 			except Exception as err:
 				await ctx.send(tr("Failed to reboot module - `{module}`", ctx=ctx, emoji="fire", module=mod, error=err))
+				print(err)
 
 	@reload_module.error
 	async def reload_module_error(self, ctx, error):
@@ -107,11 +104,11 @@ class Tools(commands.Cog):
 	async def info(self, ctx):
 		embed = discord.Embed(
 			title=tr("The best bot in the world", ctx=ctx, emoji="small_blue_diamond"),
-			color=COLORS["blue"],
+			color=self.const.COLORS["blue"],
 		)
 
 		embed.set_image(
-			url=BOT_PROFILE_PICTURE,
+			url=self.const.BOT_PROFILE_PICTURE,
 		)
 
 		embed.add_field(
@@ -121,7 +118,7 @@ class Tools(commands.Cog):
 
 		embed.add_field(
 			name=tr("Commands", ctx=ctx, emoji="small_blue_diamond"),
-			value=DOCS_LINK,
+			value=self.const.BOT_DOCS_LINK,
 		)
 
 		await ctx.send(embed=embed)

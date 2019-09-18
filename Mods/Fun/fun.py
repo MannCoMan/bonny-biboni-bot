@@ -2,12 +2,9 @@ import discord
 from discord.ext import commands
 
 import os
-import re
 import random
 import datetime
 import requests
-from pathlib import Path
-
 
 from PIL import Image
 from PIL import ImageFont
@@ -19,8 +16,8 @@ import wand.image as image
 from wand.display import display
 
 from io import BytesIO
-from Core.Settings import *
-from Core.Translate import Translate
+from .constants import FunConst
+from Core.translate import Translate
 
 
 translate = Translate("Mods/Fun/Locales")
@@ -29,10 +26,12 @@ alias = translate.getalias
 
 
 class Fun(commands.Cog):
+	const = FunConst()
+
 	def __init__(self, bot):
 		self.imgur_client = ImgurClient(
-			IMGUR_CLIEND_ID,
-			IMGUR_CLIENT_SECRET
+			self.const.IMGUR_CLIENT_ID,
+			self.const.IMGUR_CLIENT_SECRET
 		)
 
 	@commands.command(aliases=alias("spongebob"), pass_context=True)
@@ -222,13 +221,12 @@ class Fun(commands.Cog):
 		except Exception as e:
 			await ctx.send(tr("I pooped myself", ctx=ctx, err=e))
 
-	async def _blend_images(self, ctx:str, 
+	async def _blend_images(self, ctx,
 			filename=None, attachments=None,
 			bg_size=None, bg_coord=None,
 			bg_scale_x1=None, bg_scale_y1=None, 
 			bg_scale_x2=None, bg_scale_y2=None,
-			bg_resize_w=None, bg_resize_h=None
-		):
+			bg_resize_w=None, bg_resize_h=None):
 		"""
 		Keyword arguments for "_blend_images" method:
 		Args:
@@ -250,7 +248,7 @@ class Fun(commands.Cog):
 		response = await self._get_images(ctx)
 		response = requests.get(response)
 
-		foreground = os.path.join(IMAGES_TEMPLATE_PATH, filename)
+		foreground = os.path.join(self.const.IMAGES_TEMPLATE_PATH, filename)
 		foreground = Image.open(foreground)
 
 		background = Image.open(BytesIO(response.content))
@@ -281,7 +279,7 @@ class Fun(commands.Cog):
 			to_send = "Images/Temp/meme.png"
 			location = await self._get_images(ctx)
 			response = requests.get(location)
-			font_path = FONTS["impact"]
+			font_path = self.const.FONTS["impact"]
 
 			if len(string):
 				string_size = len(string) // 2

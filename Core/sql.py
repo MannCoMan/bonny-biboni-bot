@@ -11,7 +11,7 @@ def create_connection(file):
     return conn
 
 
-def newtable():
+def new_table():
     conn = create_connection("Data/servers.data")
     cursor = conn.cursor()
     

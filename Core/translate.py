@@ -3,15 +3,14 @@ import re
 import random
 from pathlib import Path
 
-
-from Core.Settings import DEFAULT_LOCALE
-from Core.Settings import EMOJI_RESPONSE
-from Core.Types import Dict
-from Core.Wrapper import Wrapper
-from Core.SQL import get_guilds
+from Core.constants import Const
+from Core.types import Dict
+from Core.wrapper import Wrapper
+from Core.sql import get_guilds
 
 
 class Translate(Wrapper):
+	consts = Const()
 	guilds = Dict()
 
 	def __init__(self, path):
@@ -20,7 +19,7 @@ class Translate(Wrapper):
 			path - path to "Mod" folder
 
 		container dict contains all translations        - {lc-LC: data, ...}
-		guild dict contains all guild and their locales - {guild id: lc-LC}
+		guild dict contains all guild and their Locales - {guild id: lc-LC}
 		"""
 
 		for guild in get_guilds():
@@ -54,7 +53,7 @@ class Translate(Wrapper):
 		# Get locale (lc-LC) from `container`
 		# container[guilds[gid]]
 		locale = self.guilds.get(ctx.message.guild.id)
-		if locale == DEFAULT_LOCALE:
+		if locale == self.consts.BOT_DEFAULT_LOCALE:
 			string = args[-1]
 		else:
 			string = self.container.get(locale, *args)
@@ -67,7 +66,7 @@ class Translate(Wrapper):
 				emoji = ""
 
 			if emoji is True:
-				emoji = random.choice(EMOJI_RESPONSE)
+				emoji = random.choice(self.consts.EMOJI_RESPONSE)
 
 			string = string.format(**kwargs)
 			string = "{} {}".format(emoji, string)
