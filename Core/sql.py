@@ -5,9 +5,8 @@ def create_connection(file):
     conn = None
     try:
         conn = sql.connect(file)
-    except sql.Error as e:
-        print(e)
- 
+    except sql.Error as err:
+        print("SQL error: {}\n".format(err))
     return conn
 
 
@@ -16,7 +15,7 @@ def new_table():
     cursor = conn.cursor()
     
     sql = """
-    CREATE TABLE guilds (
+    CREATE TABLE IF NOT EXISTS guilds (
         gid INTEGER, lc TEXT, prefix TEXT
     )
     """
@@ -24,14 +23,15 @@ def new_table():
     conn.commit()
 
 
-def insert(args):
+def insert(**kwargs):
     conn = create_connection("Data/servers.data")
     cursor = conn.cursor()
 
-    sql = """
-        INSERT INTO guilds VALUES (?,?,?)
-    """
-    cursor.execute(sql, args)
+    sql = "INSERT OR REPLACE INTO guilds ({keys}) VALUES ({values})".format(
+        keys=", ".join(i for i in kwargs.keys()),
+        values=", ".join("'{}'".format(i) for i in kwargs.values())
+    )
+    cursor.execute(sql)
     conn.commit()
 
 

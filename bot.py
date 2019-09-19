@@ -14,14 +14,13 @@ from Core.constants import Const
 from Core.sql import get_guilds
 from Core.sql import insert
 
-
 tr = Translate('Locales').get
 
 
 class Bot(commands.Bot):
     const = Const()
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             command_prefix=self._get_prefix,
             case_insensitive=self.const.BOT_CASE_SENSITIVE,
@@ -37,9 +36,6 @@ class Bot(commands.Bot):
                 print("Failed to load {}\n{}: {}".format(
                     mod, type(mod).__name__, err
                 ))
-
-        for guild in self.get_all_channels():
-            print(guild)
 
     def _get_prefix(self, bot, ctx):
         guild = str(ctx.guild.id)
@@ -70,59 +66,61 @@ class Bot(commands.Bot):
         await ctx.send(tr(message, ctx=ctx, emoji=True))
 
     async def on_command(self, ctx):
-        guild = self.get_channel(
-            self.const.BOT_LOG_CHANNELS['on-command-error']
-        )
+        channel = self.const.BOT_LOG_CHANNELS.get("on-command-error", None)
+        if channel:
+            guild = self.get_channel(channel)
 
-        embed = discord.Embed(
-            title=tr("Author", ctx=ctx),
-            description="{} - {}".format(ctx.message.author, ctx.message.guild),
-            timestamp=datetime.datetime.fromtimestamp(time.time())
-        )
+            embed = discord.Embed(
+                title=tr("Author", ctx=ctx),
+                description="{} - {}".format(ctx.message.author, ctx.message.guild),
+                timestamp=datetime.datetime.fromtimestamp(time.time())
+            )
 
-        embed.add_field(
-            name=tr("Command", ctx=ctx),
-            value=ctx.message.content,
-            inline=True
-        )
+            embed.add_field(
+                name=tr("Command", ctx=ctx),
+                value=ctx.message.content,
+                inline=True
+            )
 
-        await guild.send(embed=embed)
+            await guild.send(embed=embed)
 
     async def on_command_error(self, ctx, err):
-        guild = self.get_channel(
-            self.const.BOT_LOG_CHANNELS['on-command-error']
-        )
+        channel = self.const.BOT_LOG_CHANNELS.get("on-command-error", None)
+        if channel:
+            guild = self.get_channel(
+                self.const.BOT_LOG_CHANNELS['on-command-error']
+            )
 
-        embed = discord.Embed(
-            title=tr("Author", ctx=ctx),
-            description="{} - {}".format(ctx.message.author, ctx.message.guild),
-            timestamp=datetime.datetime.fromtimestamp(time.time())
-        )
+            embed = discord.Embed(
+                title=tr("Author", ctx=ctx),
+                description="{} - {}".format(ctx.message.author, ctx.message.guild),
+                timestamp=datetime.datetime.fromtimestamp(time.time())
+            )
 
-        if isinstance(err, commands.CommandOnCooldown):
-            message = tr("Please, wait", ctx=ctx, emoji="clock1", member=ctx.message.author.mention)
-            embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
-            await guild.send(embed=embed)
+            if isinstance(err, commands.CommandOnCooldown):
+                message = tr("Please, wait", ctx=ctx, emoji="clock1", member=ctx.message.author.mention)
+                embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
+                await guild.send(embed=embed)
 
-        if isinstance(err, commands.UserInputError):
-            message = tr("Invalid input", ctx=ctx, emoji="warning", err=ctx.command)
-            embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
-            await guild.send(embed=embed)
+            if isinstance(err, commands.UserInputError):
+                message = tr("Invalid input", ctx=ctx, emoji="warning", err=ctx.command)
+                embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
+                await guild.send(embed=embed)
 
-        if isinstance(err, commands.BadArgument):
-            message = tr("Bad command argument in", emoji="warning", err=ctx.command.content)
-            embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
-            await guild.send(embed=embed)
+            if isinstance(err, commands.BadArgument):
+                message = tr("Bad command argument in", emoji="warning", err=ctx.command.content)
+                embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
+                await guild.send(embed=embed)
 
-        if isinstance(err, commands.CommandNotFound):
-            message = tr("Command not found", ctx=ctx, emoji="warning", err=ctx.message.content)
-            embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
-            await guild.send(embed=embed)
+            if isinstance(err, commands.CommandNotFound):
+                message = tr("Command not found", ctx=ctx, emoji="warning", err=ctx.message.content)
+                embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
+                await guild.send(embed=embed)
 
-        if isinstance(err, UnboundLocalError):
-            message = "Hidden error: {}".format(err)
-            embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
-            await guild.send(embed=embed)
+            if isinstance(err, UnboundLocalError):
+                message = "Hidden error: {}".format(err)
+                embed.add_field(name=tr("Command", ctx=ctx), value=message, inline=True)
+                await guild.send(embed=embed)
 
     async def on_ready(self):
         print("bot login: {}\nbot id: {}\n".format(
