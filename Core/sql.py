@@ -1,4 +1,12 @@
 import sqlite3 as sql
+import logging
+
+
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logger.addHandler(handler)
 
 
 def create_connection(file):
@@ -6,7 +14,8 @@ def create_connection(file):
     try:
         conn = sql.connect(file)
     except sql.Error as err:
-        print("SQL error: {}\n".format(err))
+        message = "SQL error: {}\n".format(err)
+        logger.warning(message)
     return conn
 
 
@@ -16,23 +25,29 @@ def new_table():
     
     sql = """
     CREATE TABLE IF NOT EXISTS guilds (
-        gid INTEGER, lc TEXT, prefix TEXT
-    )
+        gid INTEGER, lc TEXT, prefix TEXT,
+        UNIQUE (gid)
+    );
     """
     cursor.execute(sql)
     conn.commit()
+
+    logger.info("Table has been created")
 
 
 def insert(**kwargs):
     conn = create_connection("Data/servers.data")
     cursor = conn.cursor()
 
-    sql = "INSERT OR REPLACE INTO guilds ({keys}) VALUES ({values})".format(
+    sql = "INSERT OR IGNORE INTO guilds({keys}) VALUES({values})".format(
+        gid=kwargs["gid"],
         keys=", ".join(i for i in kwargs.keys()),
         values=", ".join("'{}'".format(i) for i in kwargs.values())
     )
     cursor.execute(sql)
     conn.commit()
+
+    logger.info("Data was inserted in guild - {gid}".format(kwargs.get("gid")))
 
 
 def update(gid, **kwargs):
@@ -53,6 +68,17 @@ def update(gid, **kwargs):
     )
     cursor.execute(sql)
     conn.commit()
+
+    logger.info("Data was updated in guild {gid}".format(gid=gid))
+
+
+def drop_table():
+    conn = create_connection("Data/servers.data")
+    cursor = conn.cursor()
+    cursor.execute("DROP TABLE guilds")
+    conn.commit()
+
+    logger.info("Table was dropped")
 
 
 def get_guilds(**kwargs):
