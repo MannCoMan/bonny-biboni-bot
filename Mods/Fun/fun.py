@@ -26,12 +26,12 @@ alias = translate.getalias
 
 
 class Fun(commands.Cog):
-	const = FunConst()
+	Const = FunConst()
 
 	def __init__(self, bot):
 		self.imgur_client = ImgurClient(
-			self.const.IMGUR_CLIENT_ID,
-			self.const.IMGUR_CLIENT_SECRET
+			self.Const.IMGUR_CLIENT_ID,
+			self.Const.IMGUR_CLIENT_SECRET
 		)
 
 	@commands.command(aliases=alias("spongebob"), pass_context=True)
@@ -248,7 +248,7 @@ class Fun(commands.Cog):
 		response = await self._get_images(ctx)
 		response = requests.get(response)
 
-		foreground = os.path.join(self.const.IMAGES_TEMPLATE_PATH, filename)
+		foreground = os.path.join(self.Const.IMAGES_TEMPLATE_PATH, filename)
 		foreground = Image.open(foreground)
 
 		background = Image.open(BytesIO(response.content))
@@ -279,7 +279,7 @@ class Fun(commands.Cog):
 			to_send = "Images/Temp/meme.png"
 			location = await self._get_images(ctx)
 			response = requests.get(location)
-			font_path = self.const.FONTS["impact"]
+			font_path = self.Const.FONTS["impact"]
 
 			if len(string):
 				string_size = len(string) // 2
@@ -408,8 +408,8 @@ class Fun(commands.Cog):
 				u"abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA"
 			)
 			
-			tr = {ord(a) : ord(b) for a, b in zip(*symbols)}
-			
+			tr = {ord(a): ord(b) for a, b in zip(*symbols)}
+
 			url = "https://mcgen.herokuapp.com/a.php?i=1&h=%s&t=%s" % (
 				text.capitalize().translate(tr), 
 				str(ctx.message.author.name).translate(tr)

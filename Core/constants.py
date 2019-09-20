@@ -76,6 +76,12 @@ class Const:
         "Mods.Tools",
     )
 
+    FOLDERS = [
+        "Data",
+        "Logs",
+        "Images/Temp",
+    ]
+
     COLORS = {
         "orange": 0xffae00,
         "purple": 0xe200ff,

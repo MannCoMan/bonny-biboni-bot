@@ -21,6 +21,13 @@ def monkey_injection():
 
 def args_injection(**kwargs):
     parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-f", "--file",
+        action="store",
+        default="bot.py"
+    )
+
     parser.add_argument(
         "-t",
         action="store",
@@ -46,7 +53,7 @@ def args_injection(**kwargs):
     )
 
     parsed = parser.parse_args()
-    return parser
+    return parsed
 
 
 if __name__ == '__main__':

@@ -1,53 +1,65 @@
 """
 Main module (as a mod)
 """
-import datetime
+import os
 import time
 import random
+import datetime
 import asyncio
 
 import discord
 from discord.ext import commands
 
-from Core.translate import Translate
 from Core.constants import Const
+from Core.translate import Translate
+from Core.tools import logger
+
 from Core.sql import get_guilds
 from Core.sql import insert
 
-tr = Translate('Locales').get
+tr = Translate("Locales").get
+logger = logger("bot")
 
 
 class Bot(commands.Bot):
-    const = Const()
+    Const = Const()
 
     def __init__(self, *args, **kwargs):
         super().__init__(
             command_prefix=self._get_prefix,
-            case_insensitive=self.const.BOT_CASE_SENSITIVE,
+            case_insensitive=self.Const.BOT_CASE_SENSITIVE,
             description="-info"
         )
-        self.remove_command(self.const.BOT_REMOVED_COMMANDS)
+        self.remove_command(self.Const.BOT_REMOVED_COMMANDS)
 
-        for mod in self.const.MODS:
+        for mod in self.Const.MODS:
             try:
                 self.load_extension(mod)
                 print("Mod was loaded - {}".format(mod))
             except discord.ext.commands.errors.ExtensionNotLoaded as err:
-                print("Failed to load {}\n{}: {}".format(
-                    mod, type(mod).__name__, err
-                ))
+                message = "Failed to load {}\n{}: {}".format(mod, type(mod).__name__, err)
+                logger.warning(message)
+
+        for folder in self.Const.FOLDERS:
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+
+        token = kwargs.get("token")
+        if not token:
+            raise RuntimeError("Can't get token get token")
+        self.run(token)
 
     def _get_prefix(self, bot, ctx):
-        guild = str(ctx.guild.id)
+        guild = ctx.guild.id
         guild, lc, prefix = get_guilds(gid=guild)[0]
-        return [prefix, self.const.BOT_DEFAULT_PREFIX]
+        return [prefix, self.Const.BOT_DEFAULT_PREFIX]
 
     async def _set_tasks(self):
-        status = self.const.BOT_GAME_STATUSES
-        timer = self.const.BOT_STATUS_TIMER
+        status = self.Const.BOT_GAME_STATUSES
+        timer = self.Const.BOT_STATUS_TIMER
 
-        if self.const.BOT_ENABLE_DEV_MODE:
-            status = self.const.BOT_DEV_STATUSES
+        if self.Const.BOT_ENABLE_DEV_MODE:
+            status = self.Const.BOT_DEV_STATUSES
             timer = 1
 
         game = discord.Game(name=random.choice(status))
@@ -60,13 +72,13 @@ class Bot(commands.Bot):
             await asyncio.sleep(timer)
 
     async def on_guild_join(self, ctx):
-        guild = str(ctx.message.guild.id)
-        insert((guild, self.const.BOT_DEFAULT_LOCALE, self.const.BOT_DEFAULT_PREFIX))
-        message = random.choice(self.const.BOT_GREET_MESSAGES)
+        guild = ctx.message.guild.id
+        insert(gid=guild, lc=self.Const.BOT_DEFAULT_LOCALE, prefix=self.Const.BOT_DEFAULT_PREFIX)
+        message = random.choice(self.Const.BOT_GREET_MESSAGES)
         await ctx.send(tr(message, ctx=ctx, emoji=True))
 
     async def on_command(self, ctx):
-        channel = self.const.BOT_LOG_CHANNELS.get("on-command-error", None)
+        channel = self.Const.BOT_LOG_CHANNELS.get("on-command-error", None)
         if channel:
             guild = self.get_channel(channel)
 
@@ -85,10 +97,10 @@ class Bot(commands.Bot):
             await guild.send(embed=embed)
 
     async def on_command_error(self, ctx, err):
-        channel = self.const.BOT_LOG_CHANNELS.get("on-command-error", None)
+        channel = self.Const.BOT_LOG_CHANNELS.get("on-command-error", None)
         if channel:
             guild = self.get_channel(
-                self.const.BOT_LOG_CHANNELS['on-command-error']
+                self.Const.BOT_LOG_CHANNELS['on-command-error']
             )
 
             embed = discord.Embed(

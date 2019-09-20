@@ -1,12 +1,7 @@
 import sqlite3 as sql
-import logging
+from Core.tools import logger
 
-
-logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger.addHandler(handler)
+logger = logger("sql")
 
 
 def create_connection(file):
@@ -32,7 +27,7 @@ def new_table():
     cursor.execute(sql)
     conn.commit()
 
-    logger.info("Table has been created")
+    logger.info("Table was created")
 
 
 def insert(**kwargs):
@@ -47,7 +42,7 @@ def insert(**kwargs):
     cursor.execute(sql)
     conn.commit()
 
-    logger.info("Data was inserted in guild - {gid}".format(kwargs.get("gid")))
+    logger.info("Data was inserted in guild")
 
 
 def update(gid, **kwargs):
@@ -69,7 +64,7 @@ def update(gid, **kwargs):
     cursor.execute(sql)
     conn.commit()
 
-    logger.info("Data was updated in guild {gid}".format(gid=gid))
+    logger.info("Data was updated in guild")
 
 
 def drop_table():

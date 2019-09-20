@@ -2,7 +2,7 @@ import collections
 import json
 
 from pathlib import Path
-from Core.types import Dict
+from Core.typos import Dict
 
 
 class Wrapper:

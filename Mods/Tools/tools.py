@@ -15,6 +15,7 @@ from discord.ext.commands import NoEntryPointError
 from discord.ext.commands import ExtensionFailed
 
 from .constants import ToolsConst
+from Core.tools import get_color
 from Core.translate import Translate
 from Core.sql import update
 
@@ -25,7 +26,7 @@ alias = translate.getalias
 
 
 class Tools(commands.Cog):
-	const = ToolsConst()
+	Const = ToolsConst()
 	
 	def __init__(self, bot):
 		self.bot = bot
@@ -38,7 +39,7 @@ class Tools(commands.Cog):
 			if not regex.search(prefix):
 				prefix += " "
 
-			guild = str(ctx.message.guild.id)
+			guild = ctx.message.guild.id
 			update(guild, prefix=prefix)
 			await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
 
@@ -47,7 +48,7 @@ class Tools(commands.Cog):
 		if Permissions.administrator:
 			regex = re.compile(r"[a-z]{2}-[A-Z]{2}")
 			if regex.search(locale):
-				guild = str(ctx.message.guild.id)
+				guild = ctx.message.guild.id
 				update(guild, lc=locale)
 				await ctx.send("Done. Locale is - {locale}", ctx=ctx, locale=locale)
 			else:
@@ -58,12 +59,12 @@ class Tools(commands.Cog):
 	async def restart(self, ctx):
 		embed = discord.Embed(
 			title=tr("Rebooting", ctx=ctx, emoji="gear"),
-			color=self.const.COLORS.get("orange", 0x99ccff),
+			color=get_color("orange"),
 		)
 		await ctx.send(embed=embed)
 
-		if self.const.BOT_RESTART_CLEAR_CONSOLE:
-			subprocess.call(self.const.OS_CLR[sys.platform], shell=True)
+		if self.Const.BOT_RESTART_CLEAR_CONSOLE:
+			subprocess.call(self.Const.OS_CLR[sys.platform], shell=True)
 		subprocess.call([sys.executable, "bot.py"])
 
 	@restart.error
@@ -77,7 +78,7 @@ class Tools(commands.Cog):
 		# `prefix <reload_module> *`
 		# `prefix <reload_module> ModName1 ModName2 ... ModNameX`
 		if "*" in mods:
-			mods = list(".".join(i.split(".")[1:]) for i in self.const.MODS)
+			mods = list(".".join(i.split(".")[1:]) for i in self.Const.MODS)
 
 		for mod in mods:
 			try:
@@ -104,11 +105,11 @@ class Tools(commands.Cog):
 	async def info(self, ctx):
 		embed = discord.Embed(
 			title=tr("The best bot in the world", ctx=ctx, emoji="small_blue_diamond"),
-			color=self.const.COLORS["blue"],
+			color=get_color("blue"),
 		)
 
 		embed.set_image(
-			url=self.const.BOT_PROFILE_PICTURE,
+			url=self.Const.BOT_PROFILE_PICTURE,
 		)
 
 		embed.add_field(
@@ -118,7 +119,7 @@ class Tools(commands.Cog):
 
 		embed.add_field(
 			name=tr("Commands", ctx=ctx, emoji="small_blue_diamond"),
-			value=self.const.BOT_DOCS_LINK,
+			value=self.Const.BOT_DOCS_LINK,
 		)
 
 		await ctx.send(embed=embed)

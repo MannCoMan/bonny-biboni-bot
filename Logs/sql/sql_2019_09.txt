@@ -1,0 +1,5 @@
+2019-09-20 15:16:54,076,76 Core.tools INFO Table was created
+2019-09-20 15:16:54,093,93 Core.tools INFO Data was inserted in guild
+2019-09-20 15:16:54,110,110 Core.tools INFO Data was inserted in guild
+2019-09-20 15:16:54,127,127 Core.tools INFO Data was inserted in guild
+2019-09-20 15:16:54,145,145 Core.tools INFO Table was dropped

@@ -4,7 +4,7 @@ import random
 from pathlib import Path
 
 from Core.constants import Const
-from Core.types import Dict
+from Core.typos import Dict
 from Core.wrapper import Wrapper
 from Core.sql import get_guilds
 
