@@ -9,6 +9,7 @@ import os, sys, subprocess, re
 import discord
 from discord.ext import commands
 from discord.permissions import Permissions
+from discord.audit_logs import AuditLogEntry
 from discord.ext.commands import ExtensionNotFound
 from discord.ext.commands import ExtensionNotLoaded
 from discord.ext.commands import NoEntryPointError
@@ -53,6 +54,13 @@ class Tools(commands.Cog):
 				await ctx.send("Done. Locale is - {locale}", ctx=ctx, locale=locale)
 			else:
 				await ctx.send("Sosi")
+
+	@commands.command(aliases=alias("purge-message"), pass_context=True)
+	async def purge_message(self, ctx, value):
+		if Permissions.administrator:
+			# AuditLogEntry.category
+			pass
+
 
 	@commands.command(aliases=alias("restart"), pass_context=True)
 	@commands.is_owner()

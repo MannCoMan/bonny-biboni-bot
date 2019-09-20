@@ -8,6 +8,13 @@
         "pref",
         "префикс"
     ],
+    "purge-message": [
+        "purge",
+        "delete",
+        "md",
+        "стереть",
+        "ус"
+    ],
     "restart": [
         "res",
         "reset",
