@@ -1,6 +1,7 @@
 {
     "Author": "Автор",
     "Command": "Команда",
+    "Error": "Ошибка",
     "Please, wait": "Пожалуйста, подождите",
     "Invalid input": "Неправильный ввод в {err}",
     "Bad command argument": "Ошибка аргумента {err}",
