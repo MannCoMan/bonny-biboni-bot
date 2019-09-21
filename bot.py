@@ -44,11 +44,6 @@ class Bot(commands.Bot):
             if not os.path.exists(folder):
                 os.makedirs(folder)
 
-        token = kwargs.get("token")
-        if not token:
-            raise RuntimeError("Can't get token get token")
-        self.run(token)
-
     def _get_prefix(self, bot, ctx):
         guild = ctx.guild.id
         guild, lc, prefix = get_guilds(gid=guild)[0]
