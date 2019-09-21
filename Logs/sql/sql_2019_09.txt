@@ -45,6 +45,7 @@
 2019-09-20 21:54:08,551,551 Core.tools INFO Data was inserted in guild
 2019-09-20 21:54:08,568,568 Core.tools INFO Data was inserted in guild
 2019-09-20 21:54:08,593,593 Core.tools INFO Data was inserted in guild
+<<<<<<< HEAD
 2019-09-21 17:19:13,121,121 Core.tools INFO Table was created
 2019-09-21 17:19:13,124,124 Core.tools INFO Data was inserted in guild
 2019-09-21 17:19:13,125,125 Core.tools INFO Data was inserted in guild
@@ -137,3 +138,5 @@
 2019-09-21 23:07:26,845,845 Core.tools INFO Data was inserted in guild
 2019-09-21 23:07:26,864,864 Core.tools INFO Data was inserted in guild
 2019-09-21 23:07:26,887,887 Core.tools INFO Data was inserted in guild
+=======
+>>>>>>> 9ad2324714667587996bd6fb0b7c52815107be92
