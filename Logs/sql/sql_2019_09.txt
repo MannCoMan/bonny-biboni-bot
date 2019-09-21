@@ -3,3 +3,45 @@
 2019-09-20 15:16:54,110,110 Core.tools INFO Data was inserted in guild
 2019-09-20 15:16:54,127,127 Core.tools INFO Data was inserted in guild
 2019-09-20 15:16:54,145,145 Core.tools INFO Table was dropped
+2019-09-20 21:23:53,516,516 Core.tools INFO Table was created
+2019-09-20 21:23:53,540,540 Core.tools INFO Data was inserted in guild
+2019-09-20 21:23:53,558,558 Core.tools INFO Data was inserted in guild
+2019-09-20 21:23:53,580,580 Core.tools INFO Data was inserted in guild
+2019-09-20 21:23:53,599,599 Core.tools INFO Table was dropped
+2019-09-20 21:25:18,674,674 Core.tools INFO Table was created
+2019-09-20 21:25:23,116,116 Core.tools INFO Table was created
+2019-09-20 21:25:23,151,151 Core.tools INFO Data was inserted in guild
+2019-09-20 21:25:23,178,178 Core.tools INFO Data was inserted in guild
+2019-09-20 21:25:23,207,207 Core.tools INFO Data was inserted in guild
+2019-09-20 21:25:23,230,230 Core.tools INFO Table was dropped
+2019-09-20 21:25:50,616,616 Core.tools INFO Table was created
+2019-09-20 21:26:25,035,35 Core.tools INFO Table was created
+2019-09-20 21:27:03,708,708 Core.tools INFO Table was created
+2019-09-20 21:27:03,729,729 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:03,750,750 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:03,768,768 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:03,788,788 Core.tools INFO Table was dropped
+2019-09-20 21:27:27,175,175 Core.tools INFO Table was created
+2019-09-20 21:27:27,197,197 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:27,216,216 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:27,236,236 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:27,255,255 Core.tools INFO Table was dropped
+2019-09-20 21:27:43,547,547 Core.tools INFO Table was created
+2019-09-20 21:27:43,568,568 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:43,586,586 Core.tools INFO Data was inserted in guild
+2019-09-20 21:27:43,607,607 Core.tools INFO Data was inserted in guild
+2019-09-20 21:49:50,569,569 Core.tools INFO Table was created
+2019-09-20 21:51:18,804,804 Core.tools INFO Table was created
+2019-09-20 21:51:18,812,812 Core.tools INFO Data was inserted in guild
+2019-09-20 21:51:18,813,813 Core.tools INFO Data was inserted in guild
+2019-09-20 21:51:18,814,814 Core.tools INFO Data was inserted in guild
+2019-09-20 21:51:18,829,829 Core.tools INFO Table was dropped
+2019-09-20 21:53:58,284,284 Core.tools INFO Table was created
+2019-09-20 21:53:58,304,304 Core.tools INFO Data was inserted in guild
+2019-09-20 21:53:58,333,333 Core.tools INFO Data was inserted in guild
+2019-09-20 21:53:58,352,352 Core.tools INFO Data was inserted in guild
+2019-09-20 21:53:58,375,375 Core.tools INFO Table was dropped
+2019-09-20 21:54:08,532,532 Core.tools INFO Table was created
+2019-09-20 21:54:08,551,551 Core.tools INFO Data was inserted in guild
+2019-09-20 21:54:08,568,568 Core.tools INFO Data was inserted in guild
+2019-09-20 21:54:08,593,593 Core.tools INFO Data was inserted in guild
