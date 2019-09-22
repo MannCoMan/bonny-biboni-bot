@@ -243,11 +243,11 @@ class Fun(commands.Cog):
             await ctx.send(tr("I pooped myself", ctx=ctx, err=e))
 
     async def _blend_images(self, ctx,
-                            filename=None, attachments=None,
-                            bg_size=None, bg_coord=None,
-                            bg_scale_x1=None, bg_scale_y1=None,
-                            bg_scale_x2=None, bg_scale_y2=None,
-                            bg_resize_w=None, bg_resize_h=None):
+            filename=None, attachments=None,
+            bg_size=None, bg_coord=None,
+            bg_scale_x1=None, bg_scale_y1=None,
+            bg_scale_x2=None, bg_scale_y2=None,
+            bg_resize_w=None, bg_resize_h=None):
         """
 		Keyword arguments for "_blend_images" method:
 		Args:
@@ -275,10 +275,12 @@ class Fun(commands.Cog):
         background = Image.open(BytesIO(response.content))
 
         if 3000 in background.size:
-            await ctx.send(tr("Image is too large ({w}x{h})", ctx=ctx,
-                              w=background.size[0],
-                              h=background.size[1],
-                              ))
+            await ctx.send(
+                tr("Image is too large ({w}x{h})",
+                   ctx=ctx,
+                   w=background.size[0],
+                   h=background.size[1]
+                ))
         else:
             background = background.resize(bg_size)
 
@@ -376,7 +378,7 @@ class Fun(commands.Cog):
 
             member = await self._get_members(ctx)
             member = random.choice(member)
-            await ctx.send(tr("I think it's a {member}", ctx=ctx, member=member))
+            await ctx.send(tr("I think it's a {member}", ctx=ctx, emoji=True, member=member))
 
         except Exception as err:
             await ctx.send(tr("I pooped myself", ctx=ctx, err=err))
@@ -390,7 +392,9 @@ class Fun(commands.Cog):
             years = max_year - min_year + 1
             end = start + datetime.timedelta(days=365 * years)
             result = start + (end - start) * random.random()
-            result = datetime.datetime.strftime(result, tr("It happend in '{tf}'", ctx=ctx, tf="%D - %d:%m:%y"))
+            result = datetime.datetime.strftime(
+                result, tr("It happend or will happend in '{tf}'", ctx=ctx, emoji="thinking", tf="%D - %d:%m:%y")
+            )
             await ctx.send(result)
         except Exception as err:
             await ctx.send(tr("I pooped myself", ctx=ctx, err=err))

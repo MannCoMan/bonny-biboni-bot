@@ -36,24 +36,25 @@ class Tools(commands.Cog):
 	async def set_prefix(self, ctx, prefix):
 		if Permissions.administrator:
 			regex = re.compile(r"[@_!#$%^&*()<>?/\|}{~:]")
-			# If prefix is a word then add space
+			# if prefix is a word then add space
 			if not regex.search(prefix):
 				prefix += " "
 
+			await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
 			guild = ctx.message.guild.id
 			update(guild, prefix=prefix)
-			await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
 
 	@commands.command(aliases=alias("set-locale"), pass_context=True)
 	async def set_locale(self, ctx, locale):
 		if Permissions.administrator:
 			regex = re.compile(r"[a-z]{2}-[A-Z]{2}")
+			# locale format - lc-LC
+			# change it to emoji listener
 			if regex.search(locale):
 				guild = ctx.message.guild.id
 				update(guild, lc=locale)
 				await ctx.send("Done. Locale is - {locale}", ctx=ctx, locale=locale)
-			else:
-				await ctx.send("Sosi")
+			await ctx.send("Sosi")
 
 	@commands.command(aliases=alias("purge-message"), pass_context=True)
 	async def purge_message(self, ctx, value):

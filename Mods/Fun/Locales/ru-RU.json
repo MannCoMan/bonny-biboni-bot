@@ -4,6 +4,6 @@
     "Type something": "Ошибка! Напиши что-нибудь, дебил",
     "I pooped myself!": "Я обосрался!",
     "I think it's a {member}": "Я думаю, это {member}",
-    "It happend in '{tf}'": "Это произошло в '{tf}'",
+    "It happend or will happend in '{tf}'": "Это произошло или произойдёт в '{tf}'",
     "Can't download image(s)": "Я не смог сохранить изображение(-я)!"
 }

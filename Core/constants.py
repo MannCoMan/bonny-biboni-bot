@@ -6,7 +6,7 @@ import os
 
 class Const:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    BOT_TOKEN = "NDMzMzgzOTM2NDI1NzIxODYx.XYeupg.qqfbFKXCHTONOw1UKCFHvo3TGBo"
+    BOT_TOKEN = "NDMzMzgzOTM2NDI1NzIxODYx.XYe-Vg.AMjM4fPTUVc-dY99BOnwrtKlgAo"
 
     ADMINS_ROLES = (
         "Министерство Информации",

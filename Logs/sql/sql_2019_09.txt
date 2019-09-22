@@ -1,0 +1,1 @@
+2019-09-22 23:36:36,619,619 Core.tools INFO Data was inserted in guild
