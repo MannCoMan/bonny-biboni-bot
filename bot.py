@@ -91,7 +91,7 @@ class Bot(commands.Bot):
 
             await guild.send(embed=embed)
 
-        logger.error("Author: {author}; Command: {command}".format(
+        logger.info("Author: {author}; Command: {command}".format(
             author=ctx.message.author,
             command=ctx.message.content
         ))
