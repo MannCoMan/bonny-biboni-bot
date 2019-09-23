@@ -242,56 +242,6 @@ class Fun(commands.Cog):
         except Exception as e:
             await ctx.send(tr("I pooped myself", ctx=ctx, err=e))
 
-    async def _blend_images(self, ctx,
-            filename=None, attachments=None,
-            bg_size=None, bg_coord=None,
-            bg_scale_x1=None, bg_scale_y1=None,
-            bg_scale_x2=None, bg_scale_y2=None,
-            bg_resize_w=None, bg_resize_h=None):
-        """
-		Keyword arguments for "_blend_images" method:
-		Args:
-			filename       - background image path
-			attachments    - attached urls, default
-			bg_size        - background image width and height
-			bg_coord       - background image coordinates
-			bg_scale_x1    - rescale image by x1
-			bg_scale_y1    - rescale image by y1
-			bg_scale_x2    - rescale image by x2
-			bg_scale_y2    - rescale image by y2
-			bg_resize_w    - resize image width
-			bg_resize_h    - resize image height
-		"""
-
-        await ctx.trigger_typing()
-        to_send = "Images/Temp/{}".format(filename)
-
-        response = await self._get_images(ctx)
-        response = requests.get(response)
-
-        foreground = os.path.join(self.Const.IMAGES_TEMPLATE_PATH, filename)
-        foreground = Image.open(foreground)
-
-        background = Image.open(BytesIO(response.content))
-
-        if 3000 in background.size:
-            await ctx.send(
-                tr("Image is too large ({w}x{h})",
-                   ctx=ctx,
-                   w=background.size[0],
-                   h=background.size[1]
-                ))
-        else:
-            background = background.resize(bg_size)
-
-            blended = Image.new("RGBA", foreground.size)
-            blended.paste(background, bg_coord)
-            blended.paste(foreground, (0, 0), foreground)
-            blended.save(to_send, "PNG")
-
-            await ctx.send(file=discord.File(to_send))
-            os.remove(to_send)
-
     @commands.command(aliases=alias("impact-meme"), pass_context=True)
     async def impact_meme(self, ctx, *string):
         # Forked from: https://github.com/Littlemansmg/Discord-Meme-Generator
@@ -357,19 +307,6 @@ class Fun(commands.Cog):
         except Exception as err:
             print(err)
 
-    async def _get_images(self, ctx, history_limit=None, formats=None):
-        if not history_limit:
-            history_limit = 200
-
-        if not formats:
-            formats = ("png", "gif", "jpeg", "jpg")
-
-        async for c in ctx.history(limit=history_limit):  # limit=10
-            if len(c.attachments) > 0:
-                background_url = c.attachments[0].url
-                background_ext = background_url.split(".")[-1]
-                return background_url if background_ext in formats else None
-
     @commands.command(aliases=alias("whois"), pass_context=True)
     async def whois(self, ctx, *text):
         try:
@@ -398,9 +335,6 @@ class Fun(commands.Cog):
             await ctx.send(result)
         except Exception as err:
             await ctx.send(tr("I pooped myself", ctx=ctx, err=err))
-
-    async def _get_members(self, ctx):
-        return [i.mention for i in ctx.guild.members]
 
     @commands.command(aliases=alias("imgur"), pass_context=True)
     @commands.cooldown(2, 5)
@@ -450,6 +384,67 @@ class Fun(commands.Cog):
 
         except Exception as err:
             await ctx.send(tr("I pooped myself", ctx=ctx, err=err))
+
+        async def _blend_images(self, ctx,
+                                filename=None, attachments=None,
+                                bg_size=None, bg_coord=None,
+                                bg_scale_x1=None, bg_scale_y1=None,
+                                bg_scale_x2=None, bg_scale_y2=None,
+                                bg_resize_w=None, bg_resize_h=None):
+            """
+    		Keyword arguments for "_blend_images" method:
+    		Args:
+    			filename       - background image path
+    			attachments    - attached urls, default
+    			bg_size        - background image width and height
+    			bg_coord       - background image coordinates
+    			bg_scale_x1    - rescale image by x1
+    			bg_scale_y1    - rescale image by y1
+    			bg_scale_x2    - rescale image by x2
+    			bg_scale_y2    - rescale image by y2
+    			bg_resize_w    - resize image width
+    			bg_resize_h    - resize image height
+    		"""
+
+            await ctx.trigger_typing()
+            to_send = "Images/Temp/{}".format(filename)
+
+            response = await self._get_images(ctx)
+            response = requests.get(response)
+
+            foreground = os.path.join(self.Const.IMAGES_TEMPLATE_PATH, filename)
+            foreground = Image.open(foreground)
+
+            background = Image.open(BytesIO(response.content))
+
+            if 3000 in background.size:
+                await ctx.send(tr("Image is too large ({w}x{h})", ctx=ctx, w=background.size[0], h=background.size[1]))
+            else:
+                background = background.resize(bg_size)
+
+                blended = Image.new("RGBA", foreground.size)
+                blended.paste(background, bg_coord)
+                blended.paste(foreground, (0, 0), foreground)
+                blended.save(to_send, "PNG")
+
+                await ctx.send(file=discord.File(to_send))
+                os.remove(to_send)
+
+    async def _get_images(self, ctx, history_limit=None, formats=None):
+        if not history_limit:
+            history_limit = 200
+
+        if not formats:
+            formats = ("png", "gif", "jpeg", "jpg")
+
+        async for c in ctx.history(limit=history_limit):  # limit=10
+            if len(c.attachments) > 0:
+                background_url = c.attachments[0].url
+                background_ext = background_url.split(".")[-1]
+                return background_url if background_ext in formats else None
+
+    async def _get_members(self, ctx):
+        return [i.mention for i in ctx.guild.members]
 
 
 def setup(bot):

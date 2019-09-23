@@ -43,6 +43,7 @@ class Tools(commands.Cog):
 			await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
 			guild = ctx.message.guild.id
 			update(guild, prefix=prefix)
+		await ctx.send("Sosi")
 
 	@commands.command(aliases=alias("set-locale"), pass_context=True)
 	async def set_locale(self, ctx, locale):
@@ -54,14 +55,13 @@ class Tools(commands.Cog):
 				guild = ctx.message.guild.id
 				update(guild, lc=locale)
 				await ctx.send("Done. Locale is - {locale}", ctx=ctx, locale=locale)
-			await ctx.send("Sosi")
+		await ctx.send("Sosi")
 
 	@commands.command(aliases=alias("purge-message"), pass_context=True)
 	async def purge_message(self, ctx, value):
 		if Permissions.administrator:
 			# AuditLogEntry.category
 			pass
-
 
 	@commands.command(aliases=alias("restart"), pass_context=True)
 	@commands.is_owner()
