@@ -14,8 +14,7 @@ from Core.constants import Const
 from Core.translate import Translate
 from Core.tools import logger
 
-from Core.sql import get_guilds
-from Core.sql import insert
+from Core.asql import get_guilds, insert, runner
 
 tr = Translate("Locales").get
 logger = logger("bot")
@@ -44,9 +43,9 @@ class Bot(commands.Bot):
             if not os.path.exists(folder):
                 os.makedirs(folder)
 
-    def _get_prefix(self, bot, ctx):
+    async def _get_prefix(self, bot, ctx):
         guild = ctx.guild.id
-        guild, lc, prefix = get_guilds(gid=guild)[0]
+        guild, lc, prefix = await runner(get_guilds, gid=guild)[0]
         return [prefix, self.Const.BOT_DEFAULT_PREFIX]
 
     async def _set_tasks(self):
@@ -68,7 +67,7 @@ class Bot(commands.Bot):
 
     async def on_guild_join(self, ctx):
         guild = ctx.message.guild.id
-        insert(gid=guild, lc=self.Const.BOT_DEFAULT_LOCALE, prefix=self.Const.BOT_DEFAULT_PREFIX)
+        await runner(insert, gid=guild, lc=self.Const.BOT_DEFAULT_LOCALE, prefix=self.Const.BOT_DEFAULT_PREFIX)
         message = random.choice(self.Const.BOT_GREET_MESSAGES)
         await ctx.send(tr(message, ctx=ctx, emoji=True))
 
@@ -137,6 +136,9 @@ class Bot(commands.Bot):
             message = "Hidden error: {}".format(error)
             embed.add_field(name=tr("Error", ctx=ctx), value=message, inline=True)
             await guild.send(embed=embed)
+
+        if isinstance(error, commands.CommandInvokeError):
+            raise error.original
 
     async def on_ready(self):
         print("login: {}\nid: {}\n".format(

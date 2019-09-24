@@ -15,7 +15,7 @@ from discord.ext.commands import ExtensionNotFound
 from .constants import ToolsConst
 from Core.translate import Translate
 from Core.tools import get_color
-from Core.sql import update, runner
+from Core.asql import update, runner
 
 translate = Translate("Mods/Tools/Locales")
 tr = translate.get
@@ -30,16 +30,19 @@ class Tools(commands.Cog):
 
     @commands.command(aliases=alias("set-prefix"), pass_context=True)
     async def set_prefix(self, ctx, prefix):
-        if Permissions.administrator:
-            regex = re.compile(r"[@_!#$%^&*()<>?/\|}{~:]")
-            # if prefix is a word then add space
-            if not regex.search(prefix):
-                prefix += " "
+        try:
+            if Permissions.administrator:
+                regex = re.compile(r"[@_!#$%^&*()<>?/\|}{~:]")
+                # if prefix is a word then add space
+                if not regex.search(prefix):
+                    prefix += " "
 
-            guild = ctx.message.guild.id
-            await runner(update, guild, prefix=prefix)
-            await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
-        await ctx.send("Sosi")
+                guild = ctx.message.guild.id
+                await runner(update, guild, prefix=prefix)
+                await ctx.send(tr("Done. Prefix is - {prefix}", ctx=ctx, prefix=prefix))
+            await ctx.send("Sosi")
+        except Exception as err:
+            raise Exception(err)
 
     @commands.command(aliases=alias("set-locale"), pass_context=True)
     async def set_locale(self, ctx, locale):

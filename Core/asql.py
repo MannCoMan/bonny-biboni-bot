@@ -135,11 +135,10 @@ async def get_guilds(file=None, **kwargs):
             sql = "SELECT gid, lc, prefix FROM guilds WHERE {items} ;".format(
                 items=items
             )
-        else:
-            sql = "SELECT * FROM guilds ;"
-    
-        await conn.execute(sql)
-        await conn.fetchall()
+        sql = "SELECT * FROM guilds ;"
+
+        cursor = await conn.execute(sql)
+        return await cursor.fetchall()
 
 
 async def runner(func, *args, **kwargs):
