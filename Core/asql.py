@@ -1,3 +1,4 @@
+import functools
 import sqlite3
 import aiosqlite
 import asyncio
@@ -53,8 +54,8 @@ async def drop_table(file=None, table=None):
         raise ValueError("Parameter 'table' is None!")
 
     async with aiosqlite.connect(file) as conn:
-        conn.execute("DROP TABLE {table}".format(table=table))
-        conn.commit()
+        await conn.execute("DROP TABLE {table}".format(table=table))
+        await conn.commit()
 
 
 async def insert(file=None, **kwargs):
@@ -141,6 +142,6 @@ async def get_guilds(file=None, **kwargs):
         await conn.fetchall()
 
 
-async def runner(function, *args, **kwargs):
-    coro = function(*args, **kwargs)
-    coro.send(None)
+async def runner(func, *args, **kwargs):
+    loop = asyncio.get_event_loop()
+    asyncio.run(functools.partial(func, *args, **kwargs))

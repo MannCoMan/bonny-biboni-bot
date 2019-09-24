@@ -1,7 +1,14 @@
 import sqlite3 as sql
-from Core.tools import logger
 
-logger = logger("sql")
+import asyncio
+import functools
+
+from Core.tools import logger
+from concurrent.futures.thread import ThreadPoolExecutor
+
+
+logger = logger(__name__)
+_executor = ThreadPoolExecutor(20)
 
 
 def create_connection(file):
@@ -128,4 +135,10 @@ def get_guilds(**kwargs):
         sql = "SELECT * FROM guilds ;"
 
     cursor.execute(sql)
+    logger.info("get_guilds was executed")
     return cursor.fetchall()
+
+
+async def runner(func, *args, **kwargs):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(_executor, functools.partial(func, *args, **kwargs))

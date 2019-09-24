@@ -6,7 +6,7 @@ import os
 
 class Const:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    BOT_TOKEN = "NDMzMzgzOTM2NDI1NzIxODYx.XYe-Vg.AMjM4fPTUVc-dY99BOnwrtKlgAo"
+    BOT_TOKEN = "NDMzMzgzOTM2NDI1NzIxODYx.XYotFg.Vki8VODO2xQ_Uwo3IjVrWRyvF7Q"
 
     ADMINS_ROLES = (
         "Министерство Информации",
@@ -67,7 +67,7 @@ class Const:
 
     MODS = [
         "Mods.Tools.tools",
-        "Mods.Fun.fun",
+        # "Mods.Fun.fun",
     ]
 
     BOT_ENABLE_DEV_MODE = False

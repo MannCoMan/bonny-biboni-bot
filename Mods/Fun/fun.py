@@ -17,11 +17,14 @@ from wand.display import display
 
 from io import BytesIO
 from .constants import FunConst
+from Core.tools import logger
 from Core.translate import Translate
+
 
 translate = Translate("Mods/Fun/Locales")
 tr = translate.get
 alias = translate.getalias
+logger = logger(__name__)
 
 
 class Fun(commands.Cog):
