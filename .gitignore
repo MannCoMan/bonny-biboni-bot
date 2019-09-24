@@ -1,2 +1,6 @@
 __pycache__
 Tests
+Data
+Logs
+venv
+.vscode

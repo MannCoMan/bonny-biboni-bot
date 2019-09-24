@@ -129,4 +129,3 @@ def get_guilds(**kwargs):
 
     cursor.execute(sql)
     return cursor.fetchall()
-    # print(sql)

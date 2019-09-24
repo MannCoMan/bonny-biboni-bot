@@ -96,3 +96,4 @@ class Const:
         "dark-cyan": 0x216a77,
     }
 
+    SQL_DEFAULT_FILE = "Data/servers.data"
